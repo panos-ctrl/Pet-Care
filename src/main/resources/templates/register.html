@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base}">
+<head>
+    <title>Register - Pet Care</title>
+</head>
+<body>
+
+<header layout:fragment="header">
+    <h1>Pet Care Clinic <small class="text-muted">/ Εγγραφή</small></h1>
+</header>
+
+<section layout:fragment="main" class="w-50">
+    <!-- Συνδέουμε τη φόρμα με το object createPersonRequest -->
+    <form th:action="@{/register}" method="post" th:object="${createPersonRequest}" class="card p-4 shadow-sm">
+
+        <!-- ERROR MESSAGE από τον Controller -->
+        <div class="text-center mb-3" th:if="${errorMessage}">
+            <p class="text-danger" th:text="${errorMessage}"></p>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Όνομα</label>
+            <input type="text" th:field="*{firstName}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Επίθετο</label>
+            <input type="text" th:field="*{lastName}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email (Username)</label>
+            <input type="email" th:field="*{emailAddress}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Τηλέφωνο</label>
+            <input type="text" th:field="*{phoneNumber}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Ιδιότητα (Ρόλος)</label>
+            <select th:field="*{role}" class="form-select" required>
+                <option value="OWNER">Ιδιοκτήτης Κατοικίδιου</option>
+                <option value="VET">Κτηνίατρος</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Κωδικός Πρόσβασης</label>
+            <input type="password" th:field="*{rawPassword}" class="form-control" required>
+        </div>
+
+        <div class="mb-4">
+            <button type="submit" class="btn btn-success w-100">Εγγραφή</button>
+        </div>
+
+
+        <p class="text-center"><a th:href="@{/login}">Έχετε ήδη λογαριασμό; Συνδεθείτε</a></p>
+    </form>
+</section>
+
+</body>
+</html>

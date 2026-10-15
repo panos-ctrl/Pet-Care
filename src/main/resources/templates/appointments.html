@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" layout:decorate="~{base}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Ραντεβού - Pet Care</title>
+</head>
+<body>
+<header layout:fragment="header">
+    <h1>Pet Care Clinic <small class="text-muted">/ Τα Ραντεβού μου</small></h1>
+</header>
+
+<section layout:fragment="main">
+    <div class="mb-3 d-flex justify-content-between align-items-center">
+        <a th:href="@{/dashboard}" class="btn btn-outline-secondary">&larr; Επιστροφή στο Μενού</a>
+
+        <!-- Το κουμπί 'Νέο Ραντεβού' φαίνεται ΜΟΝΟ στους ιδιοκτήτες -->
+        <a th:if="${#strings.toString(me.type) == 'OWNER'}" th:href="@{/appointments/new}" class="btn btn-primary">+ Κλείσιμο Ραντεβού</a>
+    </div>
+
+    <div class="card p-3 shadow-sm">
+        <table class="table table-striped align-middle">
+            <thead>
+            <tr>
+                <th>Ημερομηνία & Ώρα</th>
+                <th>Κατοικίδιο</th>
+                <th th:if="${#strings.toString(me.type) == 'OWNER'}">Κτηνίατρος</th>
+                <th th:if="${#strings.toString(me.type) == 'VET'}">Ιδιοκτήτης</th>
+                <th>Κατάσταση</th>
+                <th th:if="${#strings.toString(me.type) == 'VET'}">Ενέργειες</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="appt : ${appointments}">
+                <td th:text="${#temporals.format(appt.appointmentDate, 'dd/MM/yyyy HH:mm')}"></td>
+                <td class="fw-bold" th:text="${appt.pet.name} + ' (' + ${appt.pet.species} + ')'"></td>
+
+                <td th:if="${#strings.toString(me.type) == 'OWNER'}" th:text="${appt.vet.lastName}"></td>
+                <td th:if="${#strings.toString(me.type) == 'VET'}" th:text="${appt.pet.owner.lastName}"></td>
+
+                <td>
+                    <span class="badge"
+                          th:classappend="${appt.status == 'ΕΚΚΡΕΜΕΙ' ? 'bg-warning text-dark' : (appt.status == 'ΕΠΙΒΕΒΑΙΩΘΗΚΕ' ? 'bg-success' : 'bg-danger')}"
+                          th:text="${appt.status}"></span>
+                </td>
+
+                <!-- Κουμπιά αλλαγής κατάστασης ΜΟΝΟ για τον Κτηνίατρο -->
+                <td th:if="${#strings.toString(me.type) == 'VET'}">
+                    <form th:action="@{/appointments/{id}/status(id=${appt.id})}" method="post" class="d-inline">
+                        <input type="hidden" name="status" value="ΕΠΙΒΕΒΑΙΩΘΗΚΕ">
+                        <button type="submit" class="btn btn-success btn-sm">Επιβεβαίωση</button>
+                    </form>
+                    <form th:action="@{/appointments/{id}/status(id=${appt.id})}" method="post" class="d-inline">
+                        <input type="hidden" name="status" value="ΑΚΥΡΩΘΗΚΕ">
+                        <button type="submit" class="btn btn-danger btn-sm">Ακύρωση</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(appointments)}">
+                <td colspan="5" class="text-center text-muted">Δεν βρέθηκαν ραντεβού.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

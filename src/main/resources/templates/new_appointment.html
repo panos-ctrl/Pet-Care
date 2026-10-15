@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" layout:decorate="~{base}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Νέο Ραντεβού - Pet Care</title>
+</head>
+<body>
+<header layout:fragment="header">
+    <h1>Pet Care Clinic <small class="text-muted">/ Νέο Ραντεβού</small></h1>
+</header>
+
+<section layout:fragment="main">
+    <div class="card p-4 shadow-sm" style="max-width: 600px; margin: auto;">
+        <h4 class="mb-4">Κλείσιμο Νέου Ραντεβού</h4>
+
+        <form th:action="@{/appointments/new}" method="post">
+            <div class="mb-3">
+                <label class="form-label">Επιλέξτε Κατοικίδιο</label>
+                <select name="petId" class="form-select" required>
+                    <option value="" disabled selected>-- Επιλέξτε --</option>
+                    <option th:each="pet : ${myPets}" th:value="${pet.id}" th:text="${pet.name} + ' (' + ${pet.species} + ')'"></option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Επιλέξτε Κτηνίατρο</label>
+                <select name="vetId" class="form-select" required>
+                    <option value="" disabled selected>-- Επιλέξτε --</option>
+                    <option th:each="vet : ${vets}" th:value="${vet.id}" th:text="${vet.firstName} + ' ' + ${vet.lastName}"></option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Ημερομηνία & Ώρα</label>
+                <input type="datetime-local" name="appointmentDate" class="form-control" required>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <a th:href="@{/appointments}" class="btn btn-outline-secondary">Ακύρωση</a>
+                <button type="submit" class="btn btn-primary">Κράτηση Ραντεβού</button>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>

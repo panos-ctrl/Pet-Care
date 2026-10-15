@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base}">
+
+<head>
+    <title>Νέο Κατοικίδιο</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <p>
+        <a th:href="@{/pets}">Επιστροφή στη λίστα</a>
+    </p>
+    <h1>Προσθήκη Κατοικίδιου</h1>
+</header>
+
+<section layout:fragment="main" class="w-50">
+
+    <div class="mb-4 text-center">
+        <a th:href="@{/dashboard}" th:text="'Συνδεδεμένος ως: ' + ${me.emailAddress} + ' (' + ${me.role} + ')'" class="badge bg-secondary text-decoration-none"></a>
+    </div>
+
+    <!-- Η φόρμα στέλνει τα δεδομένα στο /pets/new μέσω POST, και το αντικείμενο λέγεται 'form' -->
+    <form th:action="@{/pets/new}" method="post" th:object="${form}" class="card p-4 shadow-sm">
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Όνομα Κατοικίδιου</label>
+            <input type="text" id="name" name="name" th:field="*{name}" class="form-control" placeholder="π.χ. Rex" required />
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="species" class="form-label">Είδος (π.χ. Σκύλος, Γάτα)</label>
+            <input type="text" id="species" name="species" th:field="*{species}" class="form-control" required />
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('species')}" th:errors="*{species}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Περιγραφή / Ράτσα</label>
+            <textarea id="description" name="description" th:field="*{description}" class="form-control" required></textarea>
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+        </div>
+
+        <div class="mt-2">
+            <button type="submit" class="btn btn-primary w-100">Αποθήκευση</button>
+        </div>
+    </form>
+
+</section>
+
+</body>
+</html>

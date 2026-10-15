@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base}">
+<head>
+    <title>Login - Pet Care</title>
+</head>
+<body>
+
+<header layout:fragment="header">
+    <h1>Pet Care Clinic <small class="text-muted">/ Login</small></h1>
+</header>
+
+<section layout:fragment="main" class="w-50">
+    <form th:action="@{/login}" method="post" class="card p-4 shadow-sm">
+
+        <!-- MESSAGE -->
+        <div class="text-center mb-3" th:if="${message}">
+            <p class="text-success" th:text="${message}"></p>
+        </div>
+        <!-- ERROR MESSAGE -->
+        <div class="text-center mb-3" th:if="${error}">
+            <p class="text-danger" th:text="${error}"></p>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input name="username" type="email" class="form-control" required autofocus>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input name="password" type="password" class="form-control" required>
+        </div>
+
+        <div class="mb-4">
+            <button type="submit" class="btn btn-primary w-100">Log in</button>
+        </div>
+
+        <div class="mt-4 text-center">
+            <p>Δεν έχετε λογαριασμό; <a th:href="@{/register}" class="btn btn-sm btn-outline-secondary">Εγγραφή</a></p>
+        </div>
+
+
+
+    </form>
+</section>
+
+</body>
+</html>

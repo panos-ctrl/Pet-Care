@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base}">
+
+<head>
+    <title>Dashboard</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <h1>Pet Care <small class="text-muted">/ Dashboard</small></h1>
+</header>
+
+<section layout:fragment="main">
+
+    <div class="card p-4 shadow-sm w-75 mx-auto">
+        <div class="mb-4 text-center">
+            <!-- Εδώ καλούμε τα Getters της κλάσης Person (emailAddress και role) -->
+            <h4>Καλώς ήρθατε!</h4>
+            <p class="lead">
+                <span th:text="'Συνδεδεμένος ως: ' + ${me.emailAddress} + ' (' + ${me.role} + ')'"></span>
+            </p>
+        </div>
+
+        <hr>
+
+        <ul class="nav flex-column text-center mt-3">
+            <li class="nav-item mb-2">
+                <a class="btn btn-outline-primary w-50" th:href="@{/dashboard}">Πίνακας Ελέγχου</a>
+            </li>
+            <li class="nav-item mb-2">
+                <a class="btn btn-outline-success w-50" th:href="@{/pets}">Τα Κατοικίδια (Pets)</a>
+                <a th:href="@{/appointments}" class="btn btn-warning">Τα Ραντεβού μου</a>
+            </li>
+            <li class="nav-item mt-4">
+                <a class="btn btn-danger w-50" th:href="@{/logout}">Αποσύνδεση</a>
+            </li>
+        </ul>
+    </div>
+
+</section>
+
+</body>
+</html>

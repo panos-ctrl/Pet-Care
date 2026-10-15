@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base}">
+<head>
+    <title>Κατοικίδια - Pet Care</title>
+</head>
+<body>
+
+<header layout:fragment="header">
+    <h1>Pet Care Clinic <small class="text-muted">/ Λίστα Κατοικιδίων &amp; Εμβολίων</small></h1>
+</header>
+
+<section layout:fragment="main">
+    <div class="mb-3 d-flex justify-content-between align-items-center">
+        <a th:href="@{/dashboard}" class="btn btn-outline-secondary">&larr; Επιστροφή στο Μενού</a>
+        <div>
+            <span class="badge bg-secondary me-2" th:text="'Ρόλος: ' + ${me.type}"></span>
+            <a th:href="@{/pets/new}" class="btn btn-primary">+ Καταχώρηση Νέου Κατοικιδίου</a>
+        </div>
+    </div>
+
+    <div class="card p-3 shadow-sm">
+        <table class="table table-striped align-middle">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Όνομα</th>
+                <th>Είδος</th>
+                <th>Περιγραφή / Ιστορικό</th>
+                <th>Ιδιοκτήτης (Email)</th>
+                <th>Προτεινόμενα Εμβόλια (API)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="pet : ${pets}">
+                <td th:text="${pet.id}"></td>
+                <td class="fw-bold" th:text="${pet.name}"></td>
+                <td th:text="${pet.species}"></td>
+                <td th:text="${pet.description}"></td>
+                <td th:text="${pet.ownerEmail}"></td>
+                <td>
+                    <!-- Εμφάνιση της λίστας εμβολίων που ήρθε από το εξωτερικό API -->
+                    <span th:each="vaccine : ${pet.recommendedVaccines}"
+                          class="badge bg-info text-dark me-1 mb-1"
+                          th:text="${vaccine}">
+                    </span>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(pets)}">
+                <td colspan="6" class="text-center text-muted">Δεν βρέθηκαν καταχωρημένα κατοικίδια.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+</body>
+</html>
